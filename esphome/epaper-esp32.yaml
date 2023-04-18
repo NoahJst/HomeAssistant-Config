@@ -1,4 +1,3 @@
-## CONFIG ##
 esphome:
   name: epaper-esp32
   platform: ESP32
@@ -7,43 +6,13 @@ esphome:
   - delay: 15s
   - script.execute: update_screen
 
-
-## UPDATE ##
-script:
-  - id: update_screen
-    then:
-      - component.update: eink_display
-
-time:
-  - platform: sntp
-    on_time:
-      # Every morning on weekdays
-      - seconds: 0
-        minutes: 5
-        hours: 0
-        then:
-          - script.execute: update_screen
-      - seconds: 0
-        minutes: 0
-        hours: 8
-        days_of_week: SAT-SUN
-        then:
-          - script.execute: update_screen
-      - seconds: 0
-        minutes: 0
-        hours: 16
-        then:
-          - script.execute: update_screen
-
-
-## WIFI ##
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
 
   ap:
     ssid: "Epaper-Esp32 Fallback Hotspot"
-    password: "password"
+    password: "xUrnzdTgzTjk"
 
 captive_portal:
 
@@ -53,14 +22,41 @@ api:
 
 ota:
 
-## PINS ##
+script:
+  - id: update_screen
+    then:
+      - component.update: eink_display
+
+time:
+  - platform: sntp
+    id: sntp_time
+    on_time:
+      # 00:00
+      - seconds: 0
+        minutes: 5
+        hours: 0
+        then:
+          - script.execute: update_screen
+      # 08:00 (Saturday and Sunday)
+      - seconds: 0
+        minutes: 0
+        hours: 8
+        days_of_week: SAT-SUN
+        then:
+          - script.execute: update_screen
+      # 16:00
+      - seconds: 0
+        minutes: 0
+        hours: 16
+        then:
+          - script.execute: update_screen
 
 spi:
   clk_pin: 13
   mosi_pin: 14
     
 font:
-  #########REGULAR#################
+  ######### REGULAR #################
   - file: "epaper/GothamRnd-Book.ttf"
     id: book20
     size: 20
@@ -74,7 +70,7 @@ font:
     id: book25
     size: 25
     glyphs : *font-glyphs 
-  ##########BOLD################## 
+  ########## BOLD ################## 
   - file: "epaper/GothamRnd-Bold.ttf"
     id: bold15
     size: 15
@@ -102,7 +98,7 @@ font:
   - file: "epaper/GothamRnd-Bold.ttf"
     id: bold55
     size: 55
-    #glyphs: ['.', '°', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '-']
+    glyphs: ['.', '°', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '-']
 
   - file: 'epaper/materialdesignicons-webfont.ttf'
     id: mdi120
@@ -281,32 +277,32 @@ display:
      std::map<std::string, std::string> weather_traduction
         {
           {"cloudy", "Nuageux"},
-          {"cloudy-alert", "--"},
+          {"cloudy-alert", "Alerte"},
           {"cloudy-arrow-right", "--"},
           {"fog", "Brouillard"},
           {"hail", "Grêle"},
           {"hazy", "Brume"},
           {"hurricane", "Ouragan"},
           {"lightning", "Orage"},
-          {"lightning-rainy", "Pluies orageuses"},
+          {"lightning-rainy", "Orageux"},
           {"night", "Nuit"},
-          {"night-partly-cloudy", "Partiellement nuageux"},
-          {"partlycloudy", "Partiellement nuageux"},
-          {"partly-lightning", "Partiellement orageux"},
-          {"partly-rainy", "Partiellement pluvieux"},
-          {"partly-snowy", "Partiellement neigeux"},
-          {"partly-snowy-rainy", "Partiellement neigeux"},
+          {"night-partly-cloudy", "Nuageux"},
+          {"partlycloudy", "Nuageux"},
+          {"partly-lightning", "Orageux"},
+          {"partly-rainy", "Pluvieux"},
+          {"partly-snowy", "Neigeux"},
+          {"partly-snowy-rainy", "Neigeux"},
           {"pouring", "À verse"},
-          {"rainy", "Pleuvieux"},
+          {"rainy", "Pluvieux"},
           {"snowy", "Neigeux"},
           {"snowy-heavy", "Neigeux"},
           {"snowy-rainy", "Neigeux"},
           {"sunny", "Ensoleillé"},
-          {"sunny-alert", "--"},
+          {"sunny-alert", "Alerte"},
           {"sunny-off", "--"},
-          {"sunset", "Coucher de soleil"},
-          {"sunset-down", "Coucher de soleil"},
-          {"sunset-up", "Coucher de soleil"},
+          {"sunset", "Crépuscule"},
+          {"sunset-down", "Crépuscule"},
+          {"sunset-up", "Aube"},
           {"tornado", "Tornade"},
           {"windy", "Venteux"},
           {"windy-variant", "Venteux"},
@@ -314,7 +310,9 @@ display:
 
      it.printf(240, 75, id(bold35), TextAlign::TOP_CENTER, "%s", id(date_fr_complete).state.c_str());
 
+
      it.filled_rectangle(50, 120, 380, 2);
+
 
      it.printf(105, 135, id(mdi120), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_cityname).state.c_str()].c_str());
      it.printf(180, 145, id(bold35), TextAlign::TOP_LEFT, "%s", weather_traduction[id(weather_cityname).state.c_str()].c_str());
@@ -345,7 +343,9 @@ display:
      it.printf(395, 355, id(bold20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_temperature_5).state);
      it.printf(395, 375, id(book20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_templow_5).state);
 
+
      it.filled_rectangle(50, 408, 380, 2);
+
 
      it.print(50, 425, id(bold25), TextAlign::TOP_LEFT, "-- --.");
      it.print(165, 425, id(mdi20), TextAlign::TOP_LEFT, "\U000F05D6");
@@ -357,7 +357,9 @@ display:
      it.print(165, 485, id(mdi20), TextAlign::TOP_LEFT, "\U000F05D6");
      it.print(195, 485, id(book25), TextAlign::TOP_LEFT, "--");
 
+
      it.filled_rectangle(50, 520, 380, 2);
+
 
      it.print(70, 540, id(mdi36), TextAlign::TOP_CENTER, "\U000F1A74");
      it.print(95, 535, id(bold30), TextAlign::TOP_LEFT, "-.-kWh");
@@ -367,7 +369,9 @@ display:
      it.print(285, 535, id(bold30), TextAlign::TOP_LEFT, "-.-kWh");
      it.print(285, 565, id(bold15), TextAlign::TOP_LEFT, "--% solaire");
 
+
      it.filled_rectangle(50, 660, 380, 2);
+
 
      it.print(68, 673, id(mdi36), TextAlign::TOP_CENTER, "\U000F05C3");
      it.print(97, 680, id(bold25), TextAlign::TOP_LEFT, "-.-k");
@@ -376,5 +380,9 @@ display:
      it.print(300, 680, id(bold25), TextAlign::TOP_LEFT, "--k");
      it.print(370, 680, id(book25), TextAlign::TOP_LEFT, "Vues");
 
+
      it.filled_rectangle(50, 720, 380, 2);
-     it.printf(240, 725, id(bold15), TextAlign::TOP_CENTER, "Infos mises à jour : ------------");
+
+
+     it.printf(250, 725, id(bold15), TextAlign::TOP_RIGHT, "Infos mises à jour : ");
+     it.strftime(260, 725, id(bold15), TextAlign::TOP_LEFT, "%d-%m-%Y %H:%M", id(sntp_time).now());
