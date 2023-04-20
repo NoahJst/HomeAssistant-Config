@@ -196,7 +196,7 @@ text_sensor:
     id: date_fr_complete
   - platform: homeassistant
     entity_id: weather.cityname
-    id: weather_cityname
+    id: weather_name
   - platform: homeassistant
     entity_id: sensor.weather_day_1
     id: weather_day_1
@@ -227,6 +227,26 @@ text_sensor:
   - platform: homeassistant
     entity_id: sensor.weather_condition_5
     id: weather_condition_5
+  - platform: homeassistant
+    entity_id: sensor.youtube_view_count
+    id: yt_view
+  - platform: homeassistant
+    entity_id: sensor.youtube_sub_count
+    id: yt_sub
+  - platform: homeassistant
+    entity_id: sensor.next_bithday_date
+    id: bithday_date
+  - platform: homeassistant
+    entity_id: sensor.next_bithday_name
+    id: bithday_name
+
+graph:
+  - id: weather_temperature_graph
+    sensor: weather_temperature
+    duration: 24h
+    width: 380
+    height: 50
+    min_value: 0
 
 display:
   - platform: waveshare_epaper
@@ -308,38 +328,39 @@ display:
           {"windy-variant", "Venteux"},
         };
 
+
      it.printf(240, 75, id(bold35), TextAlign::TOP_CENTER, "%s", id(date_fr_complete).state.c_str());
 
 
      it.filled_rectangle(50, 120, 380, 2);
 
 
-     it.printf(105, 135, id(mdi120), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_cityname).state.c_str()].c_str());
-     it.printf(180, 145, id(bold35), TextAlign::TOP_LEFT, "%s", weather_traduction[id(weather_cityname).state.c_str()].c_str());
+     it.printf(105, 135, id(mdi120), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_name).state].c_str());
+     it.printf(180, 145, id(bold35), TextAlign::TOP_LEFT, "%s", weather_traduction[id(weather_name).state].c_str());
      it.printf(180, 187, id(bold55), TextAlign::TOP_LEFT, "%2.1f°C", id(weather_temperature).state);
 
      it.printf(85, 285, id(bold25), TextAlign::TOP_CENTER, "%s", id(weather_day_1).state.c_str());
-     it.printf(85, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_1).state.c_str()].c_str());
+     it.printf(85, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_1).state].c_str());
      it.printf(85, 355, id(bold20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_temperature_1).state);
      it.printf(85, 375, id(book20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_templow_1).state);
 
      it.printf(162, 285, id(bold25), TextAlign::TOP_CENTER, "%s", id(weather_day_2).state.c_str());
-     it.printf(162, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_2).state.c_str()].c_str());
+     it.printf(162, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_2).state].c_str());
      it.printf(162, 355, id(bold20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_temperature_2).state);
      it.printf(162, 375, id(book20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_templow_2).state);
 
      it.printf(240, 285, id(bold25), TextAlign::TOP_CENTER, "%s", id(weather_day_3).state.c_str());
-     it.printf(240, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_3).state.c_str()].c_str());
+     it.printf(240, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_3).state].c_str());
      it.printf(240, 355, id(bold20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_temperature_3).state);
      it.printf(240, 375, id(book20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_templow_3).state);
 
      it.printf(318, 285, id(bold25), TextAlign::TOP_CENTER, "%s", id(weather_day_4).state.c_str());
-     it.printf(318, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_4).state.c_str()].c_str());
+     it.printf(318, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_4).state].c_str());
      it.printf(318, 355, id(bold20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_temperature_4).state);
      it.printf(318, 375, id(book20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_templow_4).state);
 
      it.printf(395, 285, id(bold25), TextAlign::TOP_CENTER, "%s", id(weather_day_5).state.c_str());
-     it.printf(395, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_5).state.c_str()].c_str());
+     it.printf(395, 315, id(mdi36), TextAlign::TOP_CENTER, "%s", weather_icon_map[id(weather_condition_5).state].c_str());
      it.printf(395, 355, id(bold20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_temperature_5).state);
      it.printf(395, 375, id(book20), TextAlign::TOP_CENTER, "%2.1f°C", id(weather_templow_5).state);
 
@@ -347,9 +368,9 @@ display:
      it.filled_rectangle(50, 408, 380, 2);
 
 
-     it.print(50, 425, id(bold25), TextAlign::TOP_LEFT, "-- --.");
-     it.print(165, 425, id(mdi20), TextAlign::TOP_LEFT, "\U000F05D6");
-     it.print(195, 425, id(book25), TextAlign::TOP_LEFT, "--");
+     it.printf(50, 425, id(bold25), TextAlign::TOP_LEFT, "%s", id(bithday_date).state.c_str());
+     it.print(165, 425, id(mdi20), TextAlign::TOP_LEFT, "\U000F00E9");
+     it.printf(195, 425, id(book25), TextAlign::TOP_LEFT, "%s", id(bithday_name).state.c_str());
      it.print(50, 455, id(bold25), TextAlign::TOP_LEFT, "-- --.");
      it.print(165, 455, id(mdi20), TextAlign::TOP_LEFT, "\U000F05D6");
      it.print(195, 455, id(book25), TextAlign::TOP_LEFT, "--");
@@ -368,16 +389,17 @@ display:
      it.print(265, 535, id(mdi36), TextAlign::TOP_CENTER, "\U000F1904");
      it.print(285, 535, id(bold30), TextAlign::TOP_LEFT, "-.-kWh");
      it.print(285, 565, id(bold15), TextAlign::TOP_LEFT, "--% solaire");
+     it.graph(50, 595, id(weather_temperature_graph));
 
 
      it.filled_rectangle(50, 660, 380, 2);
 
 
      it.print(68, 673, id(mdi36), TextAlign::TOP_CENTER, "\U000F05C3");
-     it.print(97, 680, id(bold25), TextAlign::TOP_LEFT, "-.-k");
-     it.print(160, 680, id(book25), TextAlign::TOP_LEFT, "Abonnés");
+     it.printf(97, 680, id(bold25), TextAlign::TOP_LEFT, "%s", id(yt_sub).state.c_str());
+     it.print(165, 680, id(book25), TextAlign::TOP_LEFT, "Abonnés");
      it.filled_rectangle(285, 680, 2, 25);
-     it.print(300, 680, id(bold25), TextAlign::TOP_LEFT, "--k");
+     it.printf(300, 680, id(bold25), TextAlign::TOP_LEFT, "%s", id(yt_view).state.c_str());
      it.print(370, 680, id(book25), TextAlign::TOP_LEFT, "Vues");
 
 
@@ -385,4 +407,5 @@ display:
 
 
      it.printf(250, 725, id(bold15), TextAlign::TOP_RIGHT, "Infos mises à jour : ");
-     it.strftime(260, 725, id(bold15), TextAlign::TOP_LEFT, "%d-%m-%Y %H:%M", id(sntp_time).now());
+     it.strftime(255, 725, id(bold15), TextAlign::TOP_LEFT, "%d-%m-%Y %H:%M", id(sntp_time).now());
+     
