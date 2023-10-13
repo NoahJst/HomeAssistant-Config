@@ -1,0 +1,68 @@
+- platform: template
+  sensors:
+    # weather day correspond au jour de la semaine mis sur 3 lettres
+    weather_day_1:
+      value_template: "{{ ['LUN.', 'MAR.', 'MER.', 'JEU.', 'VEN.', 'SAM.', 'DIM.'][(state_attr('weather.le_plessis_mace', 'forecast')[0].datetime|as_datetime).weekday()]}}"
+
+    weather_day_2:
+      value_template: "{{ ['LUN.', 'MAR.', 'MER.', 'JEU.', 'VEN.', 'SAM.', 'DIM.'][(state_attr('weather.le_plessis_mace', 'forecast')[1].datetime|as_datetime).weekday()]}}"
+
+    weather_day_3:
+      value_template: "{{ ['LUN.', 'MAR.', 'MER.', 'JEU.', 'VEN.', 'SAM.', 'DIM.'][(state_attr('weather.le_plessis_mace', 'forecast')[2].datetime|as_datetime).weekday()]}}"
+
+    weather_day_4:
+      value_template: "{{ ['LUN.', 'MAR.', 'MER.', 'JEU.', 'VEN.', 'SAM.', 'DIM.'][(state_attr('weather.le_plessis_mace', 'forecast')[3].datetime|as_datetime).weekday()]}}"
+
+    weather_day_5:
+      value_template: "{{ ['LUN.', 'MAR.', 'MER.', 'JEU.', 'VEN.', 'SAM.', 'DIM.'][(state_attr('weather.le_plessis_mace', 'forecast')[4].datetime|as_datetime).weekday()]}}"
+
+    # Day 1
+    weather_temperature_1:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[0].temperature}}"
+    
+    weather_templow_1:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[0].templow}}"
+    
+    weather_condition_1:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[0].condition}}"
+
+    # Day 2
+    weather_temperature_2:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[1].temperature}}"
+    
+    weather_templow_2:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[1].templow}}"
+    
+    weather_condition_2:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[1].condition}}"
+
+    # Day 3
+    weather_temperature_3:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[2].temperature}}"
+    
+    weather_templow_3:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[2].templow}}"
+    
+    weather_condition_3:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[2].condition}}"
+      
+    # Day 4
+    weather_temperature_4:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[3].temperature}}"
+    
+    weather_templow_4:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[3].templow}}"
+    
+    weather_condition_4:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[3].condition}}"
+      
+    # Day 5
+    weather_temperature_5:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[4].temperature}}"
+    
+    weather_templow_5:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[4].templow}}"
+    
+    weather_condition_5:
+      value_template: "{{state_attr('weather.le_plessis_mace', 'forecast')[4].condition}}"
+
